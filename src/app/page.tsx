@@ -1,4 +1,4 @@
-import { Grid } from '@/components/Grid/Grid';
+import { Grid } from "@/components/Grid/Grid";
 
 const DEFAULT_ROWS = 10;
 const DEFAULT_COLS = 10;
