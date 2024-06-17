@@ -48,7 +48,7 @@ export class Movement {
     } else if (dir === Direction.down) {
       return new Position(position.getX() + 1, position.getY());
     } else {
-      return new Position(position.getX() - 1, position.getY() + 1);
+      return new Position(position.getX() - 1, position.getY());
     }
   }
 

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 import { Grid } from "../Grid/Grid";
 import { Direction } from "@/common/models/direction";
 import { Gameplay } from "@/common/models/gameplay";
 import { Position } from "@/common/models/position";
 import { Cell } from "@/common/models/cell";
 
+const GAMEPLAY_SPEED_MS = 100;
 export interface GamePlayProps {
   rows: number;
   cols: number;
@@ -35,15 +36,42 @@ export const GamePlay = ({
   }, []);
 
   const [cells, setCells] = useState<Array<Array<Cell>>>(game.board.getCells());
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       game.tick();
       setCells(game.board.getCells());
-    }, 2 * 1000);
+      if (game.hasGameEnded()) {
+        setIsGameOver(true);
+      }
+    }, GAMEPLAY_SPEED_MS);
 
     return () => clearInterval(intervalId);
   }, []);
 
-  return <Grid cells={cells} />;
+  useEffect(() => {
+    const onKeydown = (e: globalThis.KeyboardEvent) => {
+      if (e.code === "ArrowDown") {
+        game.snake.changeDirection(Direction.down);
+      } else if (e.code === "ArrowUp") {
+        game.snake.changeDirection(Direction.up);
+      } else if (e.code === "ArrowLeft") {
+        game.snake.changeDirection(Direction.left);
+      } else if (e.code === "ArrowRight") {
+        game.snake.changeDirection(Direction.right);
+      }
+    };
+
+    document.addEventListener("keydown", onKeydown);
+
+    return () => document.removeEventListener("keydown", onKeydown);
+  }, []);
+
+  return (
+    <div>
+      {isGameOver ? <div>Game Over!!!</div> : <div>Game Started!</div>}
+      <Grid cells={cells} />
+    </div>
+  );
 };

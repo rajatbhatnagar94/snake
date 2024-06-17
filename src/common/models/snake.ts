@@ -18,13 +18,20 @@ export class Snake {
     this.currDir = currDir;
   }
 
+  getDirection(): Direction {
+    return this.currDir;
+  }
+
   getPositions(): Position[] {
     return this.area;
   }
 
-  changeDirection(dir: Direction): Direction {
+  changeDirection(dir: Direction) {
+    const oppositeDir = Movement.getOppositeDirection(dir);
+    if (this.currDir === oppositeDir || this.currDir === dir) {
+      return;
+    }
     this.currDir = dir;
-    return this.currDir;
   }
 
   // Changes the area by moving one step in the direction.
@@ -40,17 +47,25 @@ export class Snake {
     return this.area;
   }
 
-  // Adds at a particular location without removing the last element.
-  add(): Position[] {
+  // Adds at the first location location without removing the last element.
+  addFirst(): Position[] {
     const nextPosition = Movement.nextPosition(
-      this.area[this.size - 1],
-      this.currDir,
+      this.area[0],
+      Movement.getOppositeDirection(this.currDir),
     );
 
-    this.area.push(nextPosition);
+    this.area.splice(0, 0, nextPosition);
     this.size++;
 
     return this.area;
+  }
+
+  getHead(): Position {
+    return this.area[this.size - 1];
+  }
+
+  getTail(): Position {
+    return this.area[0];
   }
 
   // Returns true if the snake has bitten itself

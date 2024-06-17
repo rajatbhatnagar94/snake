@@ -11,6 +11,7 @@ export class Gameplay {
   board: Board;
   movement: Movement;
   food: Food;
+  isGameOver: boolean;
 
   constructor(
     rows: number,
@@ -21,6 +22,7 @@ export class Gameplay {
   ) {
     this.rows = rows;
     this.cols = cols;
+    this.isGameOver = false;
     this.board = new Board(rows, cols);
     this.snake = new Snake(
       snakeStartSize,
@@ -44,6 +46,21 @@ export class Gameplay {
     this.board.addFood(this.food);
   }
 
+  setGameOver(is: boolean) {
+    this.isGameOver = is;
+  }
+
+  isOutOfBounds(): boolean {
+    const head = this.snake.getHead();
+    const x = head.getX();
+    const y = head.getY();
+    if (x >= this.rows || x < 0 || y >= this.cols || y < 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   tick() {
     // do all operations at tick.
     /**
@@ -51,9 +68,28 @@ export class Gameplay {
      * 2. Check if there's it's end of game i.e. snake bite or hitting the walls in next move.
      * 3. Check if food is hit. If so, increase size of snake and move food elsewhere.
      */
+
+    if (this.hasGameEnded()) {
+      return;
+    }
+
     this.snake.move();
+    if (this.snake.isSelfBite() || this.isOutOfBounds()) {
+      this.setGameOver(true);
+      return;
+    }
+
     this.board.clear();
+    const head = this.snake.getHead();
+    if (head.equals(this.food.getPosition())) {
+      this.food = new Food(this.getRandomPosition());
+      this.snake.addFirst();
+    }
     this.board.addFood(this.food);
     this.board.addSnake(this.snake);
+  }
+
+  hasGameEnded() {
+    return this.isGameOver;
   }
 }
