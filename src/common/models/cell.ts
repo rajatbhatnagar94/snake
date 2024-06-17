@@ -1,4 +1,6 @@
 export class Cell {
+  // Cell identifier
+  id: string;
   // Is there food in this cell?
   isFood: boolean;
   // Is the snake head on this cell?
@@ -9,7 +11,8 @@ export class Cell {
   // Note the this will be true if snake head or snake tail is on this.
   isSnakeBody: boolean;
 
-  constructor() {
+  constructor(id: string) {
+    this.id = id;
     this.isFood = false;
     this.isSnakeBody = false;
     this.isSnakeTail = false;
