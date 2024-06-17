@@ -1,6 +1,6 @@
 "use client";
 
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "../Grid/Grid";
 import { Direction } from "@/common/models/direction";
 import { Gameplay } from "@/common/models/gameplay";
