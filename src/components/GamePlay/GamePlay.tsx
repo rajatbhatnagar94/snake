@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Grid } from "../Grid/Grid";
 import { Direction } from "@/common/models/direction";
 import { Gameplay } from "@/common/models/gameplay";
 import { Position } from "@/common/models/position";
-import { Board } from "@/common/models/board";
+import { Cell } from "@/common/models/cell";
 
 export interface GamePlayProps {
   rows: number;
@@ -29,16 +31,19 @@ export const GamePlay = ({
   );
   useEffect(() => {
     game.start();
+    setCells(game.board.getCells());
   }, []);
 
-  const [board, setBoard] = useState<Board>(game.board);
+  const [cells, setCells] = useState<Array<Array<Cell>>>(game.board.getCells());
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       game.tick();
-      setBoard(game.board);
-    }, 1 * 1000);
+      setCells(game.board.getCells());
+    }, 2 * 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  return <Grid board={board} />;
+  return <Grid cells={cells} />;
 };

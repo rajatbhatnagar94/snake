@@ -1,20 +1,20 @@
-import { Board } from "@/common/models/board";
 import React from "react";
 import { CellRender } from "../Cell/Cell";
+import { Cell } from "@/common/models/cell";
 
 interface GridProps {
-  board: Board;
+  cells: Array<Array<Cell>>;
 }
 
-export function Grid({ board }: GridProps) {
+export function Grid({ cells }: GridProps) {
   return (
     <table>
       <tbody>
-        {board.getCells().map((cellRow, idx) => (
+        {cells.map((cellRow, idx) => (
           <tr key={idx}>
             {cellRow.map((cell) => (
-              <td>
-                <CellRender key={cell.id} cell={cell} />
+              <td key={cell.id}>
+                <CellRender cell={cell} />
               </td>
             ))}
           </tr>

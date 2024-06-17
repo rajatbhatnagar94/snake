@@ -3,10 +3,10 @@ import { Direction } from "@/common/models/direction";
 import { Position } from "@/common/models/position";
 import { GamePlay } from "@/components/GamePlay/GamePlay";
 
-const DEFAULT_ROWS = 50;
-const DEFAULT_COLS = 50;
+const DEFAULT_ROWS = 30;
+const DEFAULT_COLS = 30;
 const SNAKE_INIT_SIZE = 5;
-const SNAKE_INIT_POSITION_COL = 5;
+const SNAKE_INIT_POSITION_COL = 4;
 const SNAKE_INIT_POSITION_ROW = 0;
 const SNAKE_INIT_DIRECTION = Direction.right;
 

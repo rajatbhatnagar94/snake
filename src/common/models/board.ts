@@ -24,7 +24,14 @@ export class Board {
   }
 
   getCells(): Array<Array<Cell>> {
-    return this.grid;
+    const result = new Array<Array<Cell>>(this.rows);
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = new Array<Cell>(this.cols);
+      for (let j = 0; j < this.cols; j++) {
+        result[i][j] = this.grid[i][j];
+      }
+    }
+    return result;
   }
 
   add(position: Position, cell: Cell) {
@@ -37,7 +44,6 @@ export class Board {
     const cell = new Cell(x + "," + y);
     cell.setFood(true);
     this.grid[x][y] = cell;
-    console.log(x + "," + y);
   }
 
   addSnake(snake: Snake) {

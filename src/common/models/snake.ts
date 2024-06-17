@@ -37,7 +37,6 @@ export class Snake {
     );
     this.area.splice(0, 1);
     this.area.push(nextPosition);
-
     return this.area;
   }
 
