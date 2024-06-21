@@ -70,14 +70,12 @@ export class Snake {
 
   // Returns true if the snake has bitten itself
   isSelfBite(): boolean {
-    const nextPosition = Movement.nextPosition(
-      this.area[this.size - 1],
-      this.currDir,
-    );
+    const lastPosition = this.area[this.size - 1];
+    const n = this.area.length;
 
-    const intersectedPosition = this.area.find((position) =>
-      position.equals(nextPosition),
-    );
+    const intersectedPosition = this.area
+      .slice(0, n - 1)
+      .find((position) => position.equals(lastPosition));
 
     if (intersectedPosition === undefined) {
       return false;
